@@ -22,6 +22,7 @@ public class Pumaproduct
 	public static void main(String[]args)
 	{
 		WebDriver driver = new FirefoxDriver();
+		WebDriverWait wait=new WebDriverWait(driver, 8);
 		driver.navigate().to("https://in.puma.com");
 		String title = driver.getTitle();
 		//String actualmsg=driver.getTitle();
@@ -38,15 +39,14 @@ public class Pumaproduct
 		Set<String>st1=driver.getWindowHandles();
 		System.out.println("size is here:::::: "+st1);
 		Iterator<String>it1=st1.iterator();
-		String parentwindowid=it1.next();
 		String childwindowid=it1.next();
 		
 		driver.switchTo().window(childwindowid);
 		System.out.println("coming herere0000");
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='product-size-click-btn']")));
 		WebElement wb5 = driver.findElement(By.xpath("//div[@class='product-size-click-btn']"));
 		wb5.click();
 		System.out.println("coming herere1111");
-		WebDriverWait wait=new WebDriverWait(driver, 8);
 		//waiting for login button(shortcut circle pointer)
 		
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='product-size-div']/ul[@id='configurable_swatch_size']/li[@class='option-8']")));
@@ -74,11 +74,10 @@ public class Pumaproduct
 		// assert correct shoe name after add to card with the prevoius select
 		String actualvalue=driver.findElement(By.xpath("//tr[@class='first last odd']/td[2]/h2/following-sibling::div[1]")).getText();
 		//System.out.println(actualvalue);
-		//String ExpectedValue="SKU: 4057828126883 ";
-		//Assert.assertEquals(actualvalue, ExpectedValue);
+		String ExpectedValue=driver.findElement(By.xpath("//tr[@class='first odd']/td[2]/h2/a")).getText();
+		Assert.assertEquals(actualvalue, ExpectedValue);
+		Assert.assertTrue(actualvalue.equals(ExpectedValue));
 		System.out.println("testcase=='passed");
-		String expectedvalue="Speed 1000 IGNITE Men's Running Shoes was added to your shopping cart.";
-		Assert.assertEquals(driver.getTitle(), expectedvalue);
 		
 	}
 
